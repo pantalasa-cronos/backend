@@ -11,8 +11,15 @@ env:
 
 jobs:
   go_service_build:
-    runs-on: lunar
+    runs-on: ubuntu-latest
     steps:
+      - name: Lunar setup
+        uses: earthly/lunar-agent@main
+        with:
+          manifest-url: "github://pantalasa-cronos/lunar@main"
+          hub-token: "${{ secrets.LUNAR_HUB_TOKEN }}"
+          github-token: "${{ secrets.LUNAR_GITHUB_TOKEN }}"
+          hub-host: cronos.demo.earthly.dev
       - name: Checkout code
         uses: actions/checkout@v4
         with:
