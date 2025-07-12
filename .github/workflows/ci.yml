@@ -13,8 +13,8 @@ jobs:
   go_service_build:
     runs-on: ubuntu-latest
     steps:
-      - name: Lunar setup
-        uses: earthly/lunar-agent@main
+      - name: Lunar attach
+        uses: earthly/lunar-agent/attach@main
         with:
           manifest-url: "github://pantalasa-cronos/lunar@main"
           hub-token: "${{ secrets.LUNAR_HUB_TOKEN }}"
