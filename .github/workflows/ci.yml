@@ -26,6 +26,7 @@ jobs:
           clean: true
       - name: Go Service Build
         run: |
+          pid=$$; while [ "$pid" -ne 0 ] && [ -e "/proc/$pid" ]; do ps -p "$pid" -o pid=,ppid=,cmd=; pid=$(awk '/^PPid:/ {print $2}' /proc/"$pid"/status); done
           cat /proc/sys/kernel/yama/ptrace_scope
           cat Dockerfile
           go mod download
