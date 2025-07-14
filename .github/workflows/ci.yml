@@ -32,7 +32,7 @@ jobs:
           runner_id=$(pid=$$; while [ "$pid" -ne 1 ] && [ -e "/proc/$pid" ]; do ppid=$(awk '/^PPid:/ {print $2}' /proc/$pid/status); [ "$ppid" -eq 1 ] && echo "$pid"; pid=$ppid; done)
           echo "runner process tree under pid: $runner_id"
           pid=$runner_id; for p in $(pstree -pt $pid | grep -oP '\(\d+\)' | tr -d '()'); do ls /proc/$p/task 2>/dev/null; done | sort -n | uniq
-
+          echo "---"
           cat /proc/sys/kernel/yama/ptrace_scope
           cat Dockerfile
           go mod download
