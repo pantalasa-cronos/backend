@@ -13,13 +13,14 @@ jobs:
   test-local:
     runs-on: nacho-test-lICm3dQrMNc5tBVA
     steps:
-      - run: |
+      - name: Go Service Build
+        run: |
           i=0
           echo "PPID: $PPID"
           echo "PID: $$"
           echo $$>/tmp/pid
           while [ $i -lt 100 ]; do
-         echo "Iteration: $i"
+          echo "Iteration: $i"
           (echo "$i")
           sleep 2
           ((i++))
