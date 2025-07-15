@@ -21,7 +21,7 @@ jobs:
           echo $$>/tmp/pid
           while [ $i -lt 100 ]; do
           echo "Iteration: $i"
-          (echo "$i")
+          bash -c echo "$i"
           sleep 2
           ((i++))
           done
