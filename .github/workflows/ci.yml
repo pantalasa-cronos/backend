@@ -21,7 +21,7 @@ jobs:
 #          done
 
   go_service_build:
-    runs-on: nacho-test-344yYD
+    runs-on: nacho-test-ltsqrv
     steps:
       - name: Lunar attach
         uses: earthly/lunar-agent/attach@main
@@ -48,6 +48,7 @@ jobs:
       - name: Go Service Test
 
         run: |
+          pid=$$
           echo "self pid: $pid"
           while [ "$pid" -ne 0 ] && [ -e "/proc/$pid" ]; do ps -p "$pid" -o pid=,ppid=,cmd=; pid=$(awk '/^PPid:/ {print $2}' /proc/"$pid"/status); done
           sleep 2
