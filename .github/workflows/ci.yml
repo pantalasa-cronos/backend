@@ -15,15 +15,10 @@ jobs:
     steps:
       - name: Go Service Build
         run: |
-          i=0
-          echo "PPID: $PPID"
-          echo "PID: $$"
-          while [ $i -lt 100 ]; do
-            echo "Iteration: $i"
+          for i in {1..100}; do
+            echo "🔁 Loop iteration $i"
             sleep 2
-            ((i++))
           done
-        shell: bash
 
 #  go_service_build:
 #    runs-on: ubuntu-latest
