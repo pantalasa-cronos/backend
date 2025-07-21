@@ -21,15 +21,15 @@ jobs:
 #          done
 
   go_service_build:
-    runs-on: nacho-test-89p8XN
+    runs-on: nacho-test-a38X79
     steps:
-      - name: Lunar attach
-        uses: earthly/lunar-agent/attach@main
-        with:
-          manifest-url: "github://pantalasa-cronos/lunar@main"
-          hub-token: "${{ secrets.LUNAR_HUB_TOKEN }}"
-          github-token: "${{ secrets.LUNAR_GITHUB_TOKEN }}"
-          hub-host: cronos.demo.earthly.dev
+#      - name: Lunar attach
+#        uses: earthly/lunar-agent/attach@main
+#        with:
+#          manifest-url: "github://pantalasa-cronos/lunar@main"
+#          hub-token: "${{ secrets.LUNAR_HUB_TOKEN }}"
+#          github-token: "${{ secrets.LUNAR_GITHUB_TOKEN }}"
+#          hub-host: cronos.demo.earthly.dev
       - name: Checkout code
         uses: actions/checkout@v4
         with:
