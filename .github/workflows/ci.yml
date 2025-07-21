@@ -21,7 +21,9 @@ jobs:
 #          done
 
   go_service_build:
-    runs-on: nacho-test-ptyKnz
+    runs-on: nacho-test-9duv4J
+
+
 
     steps:
 #      - name: Lunar attach
