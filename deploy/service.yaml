@@ -6,7 +6,7 @@ metadata:
   name: billing
   namespace: applications
 spec:
-  ports:
+  portos:
     - name: gateway
       port: 81
       targetPort: 8081
