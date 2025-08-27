@@ -18,7 +18,8 @@ spec:
           image: nginx:1.27
           resources:
             requests:
-              cpu: "600m"          # ❌ missing requests.memory -> fail
+              cpu: "600m"   
+              memory: "256Mi"    
             limits:
               cpu: "500m"          # ❌ requests.cpu (600m) > limits.cpu (500m) -> fail
               memory: "256Mi"
