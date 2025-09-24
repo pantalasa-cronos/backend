@@ -1,19 +1,707 @@
-{apiVersion backstage.io/v1alpha1
+# These are bundles that I can't find any specific maintainer in metadata nor owner/admins
+#
+# base
+# cloudzero
+# conformance
+# instaler
+# integration-testing
+# metricserver
+# recommender
+# sysctl
+# vendor-orca
+# vendor-sysdig ycao mentioned its taken out of otk
+#
+# And these are bundles that I find something
+# But they do not have a single reference in otk-alerting-iac repo
+# So we assume they are not using AMP
+#
+# ack-prometheuservice: observability
+# aws-core: redman
+# aws-nvidia-device-plugin: KCL
+# cost: dan simone / aaron tam
+# gh-action-runner-queue: CI team / productivity eng team
+# grafana-tempo: observability 
+# kubac: region-builder-core
+# kubecost: dan tehranian / ragil prasetya
+# opentelemetry: observability
+# serverless: voice-intelligence
+# service-discovery: team_otk-connectivity
+# strimzi-kafka: team_twlo-operational-analytics
+# validation: KCL
+# vendor-splunk: observability-us
+---
+apiVersion: backstage.io/v1alpha1
 kind: Component
-metadata:
-  name: backend
-  description: Pantalasa backend service
-  labels:
-    earthly.dev/demo: true
+metadata: 
+  name: otk-capability-observability
+  description: "Observability capability"
   annotations:
-    earthly.dev/service-discovery: backend
-  tags:
-    - golang
+    pagerduty.com/service-id: P2U038L
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
   links:
-    - url: https://grafana.dev.pantalasa.org
-      title: Grafana central panel
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/observability"
+      title: "Application Repository"
 spec:
-  type: backend
+  type: otk-bundle
   lifecycle: production
-  owner: eng-team
-  system: public-websites
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-prometheus
+  description: "Prometheus stateful set"
+  annotations:
+    pagerduty.com/service-id: P2U038L
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/observability"
+      title: "Application Repository"
+spec:
+  type: service
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+  subcomponentOf: otk-capability-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-prometheus-operator
+  description: "Prometheus operator deployment"
+  annotations:
+    pagerduty.com/service-id: P2U038L
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/observability"
+      title: "Application Repository"
+spec:
+  type: service
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+  subcomponentOf: otk-capability-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-prometheus-alertmanager
+  description: "Alertmanager deployment"
+  annotations:
+    pagerduty.com/service-id: P2U038L
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/observability"
+      title: "Application Repository"
+spec:
+  type: service
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+  subcomponentOf: otk-capability-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-prometheus-kube-state-metrics
+  description: "Kube state metrics deployment"
+  annotations:
+    pagerduty.com/service-id: P2U038L
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/observability"
+      title: "Application Repository"
+spec:
+  type: service
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+  subcomponentOf: otk-capability-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-prometheus-pushgateway
+  description: "Pushgateway deployment"
+  annotations:
+    pagerduty.com/service-id: P2U038L
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/observability"
+      title: "Application Repository"
+spec:
+  type: service
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+  subcomponentOf: otk-capability-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-canary-analysis
+  description: "Canary-analysis capability"
+  annotations:
+    pagerduty.com/service-id: PBA1PSA
+    twilio.com/email: team_sre@twilio.com
+    twilio.com/slack-channel-name: help-sre-infra
+    twilio.com/alerting-slack-channel-id: C04RM1K48N4 #sre-infra-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/canary-analysis"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1092"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-connectivity
+  description: "Connectivity capability"
+  annotations:
+    pagerduty.com/service-id: PI1DI8W
+    twilio.com/email: team_otk-mesh@twilio.com
+    twilio.com/slack-channel-name: help-service-mesh
+    twilio.com/alerting-slack-channel-id: C05TAMJM46Q #istio-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/connectivity-health"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1032"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-continuous-delivery
+  description: "Continuous-delivery capability"
+  annotations:
+    pagerduty.com/service-id: PVTOYZK 
+    twilio.com/email: team_orchestration-delivery@twilio.com
+    twilio.com/slack-channel-name: help-deployment
+    twilio.com/alerting-slack-channel-id: C046HN2RHM2 #eng-otk-alerts-argo-cd
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/delivery"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1302"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-autoscaling
+  description: "Kube-cluster-lifecycle-autoscaling capability"
+  annotations:
+    pagerduty.com/service-id: P423UTP
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/autoscaling"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-backups
+  description: "Kube-cluster-lifecycle-backups capability"
+  annotations:
+    pagerduty.com/service-id: PONCVI2
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/backup"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-cluster-health
+  description: "Kube-cluster-lifecycle-cluster-health capability"
+  annotations:
+    pagerduty.com/service-id: P0SFTDM
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/cluster-health"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-cni
+  description: "Kube-cluster-lifecycle-cni capability"
+  annotations:
+    pagerduty.com/service-id: PCVMFTZ
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/aws-connectivity-ingress"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-coredns
+  description: "Kube-cluster-lifecycle-coredns capability"
+  annotations:
+    pagerduty.com/service-id: PFCDTOG
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/dns-autoscaling"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-kapp
+  description: "Kube-cluster-lifecycle-kapp capability"
+  annotations:
+    pagerduty.com/service-id: P9GZIQD
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/access"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-policy
+  description: "Kube-cluster-lifecycle-policy capability"
+  annotations:
+    pagerduty.com/service-id: P7BRV5C
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/policy"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-kube-cluster-lifecycle-storage
+  description: "Kube-cluster-lifecycle-storage capability"
+  annotations:
+    pagerduty.com/service-id: PJP1U16
+    twilio.com/email: team_kube-cluster-lifecycle@twilio.com
+    twilio.com/slack-channel-name: eng-otk-alerts
+    twilio.com/alerting-slack-channel-id: C04T2QK0LNB #eng-otk-alerts-kcl-info
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/storage"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2062"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-observability-testing
+  description: "Observability-testing capability"
+  annotations:
+    pagerduty.com/service-id: "N/A"
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C05J84Q26Q4 #observability-test-alerts
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/observability"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-pod-identity-addon
+  description: "Pod-identity-addon capability"
+  annotations:
+    pagerduty.com/service-id: "N/A" # AGH TODO: Not found, pending to get response from member
+    twilio.com/email: team_platform-access@twilio.com
+    twilio.com/slack-channel-name: help-platform-access
+    twilio.com/alerting-slack-channel-id: C01B330QAUB #status-pa-alerts
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/access"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup_org_zip-819"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-gh-action-runner
+  description: "Gh Action runner capability (Productivity engineering)"
+  annotations:
+    pagerduty.com/service-id: PT6E78S
+    twilio.com/email: productivity-eng@twilio.com
+    twilio.com/slack-channel-name: help-build-ci
+    twilio.com/alerting-slack-channel-id: C013JSFMTRN #team-ssc-oncall (formerly team-pe-oncall)
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/gh-action-runner"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-672"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-resource-inventory
+  description: "Resource-inventory capability"
+  annotations:
+    pagerduty.com/service-id: PF0OJ9A
+    twilio.com/email: team_operational-insights@twilio.com
+    twilio.com/slack-channel-name: help-operational-insights
+    twilio.com/alerting-slack-channel-id: C07597ECH7X #sre-operational-insights-alerts
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/resource-inventory"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2965"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-secrets-management
+  description: "Secrets-management capability"
+  annotations:
+    pagerduty.com/service-id: PN7389E
+    twilio.com/email: team_secrets-managers@twilio.com
+    twilio.com/slack-channel-name: help-otk
+    twilio.com/alerting-slack-channel-id: C06NRUEAELF #eng-otk-alerts-secrets-managers
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/secrets"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup_org_zip-819"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-service-mesh
+  description: "Service-mesh capability"
+  annotations:
+    pagerduty.com/service-id: PI1DI8W
+    twilio.com/email: team_otk-mesh@twilio.com
+    twilio.com/slack-channel-name: help-service-mesh
+    twilio.com/alerting-slack-channel-id: C05TAMJM46Q #istio-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/istio"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1032"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-workflow-engine
+  description: "Workflow-engine capability"
+  annotations:
+    pagerduty.com/service-id: PBA1PSA
+    twilio.com/email: team_sre@twilio.com
+    twilio.com/slack-channel-name: help-sre-infra
+    twilio.com/alerting-slack-channel-id: C04RM1K48N4 #sre-infra-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/workflow-engine"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1092"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-argo-cd
+  description: "Argo-cd capability"
+  annotations:
+    pagerduty.com/service-id: PVTOYZK 
+    twilio.com/email: team_orchestration-delivery@twilio.com
+    twilio.com/slack-channel-name: help-deployment
+    twilio.com/alerting-slack-channel-id: C046HN2RHM2 #eng-otk-alerts-argo-cd
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/argo-cd"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1302"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-fluent
+  description: "Fluent capability"
+  annotations:
+    pagerduty.com/service-id: PV2K7OD
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/fluent"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-mesh-canary
+  description: "Mesh-canary capability"
+  annotations:
+    pagerduty.com/service-id: PI1DI8W
+    twilio.com/email: team_otk-mesh@twilio.com
+    twilio.com/slack-channel-name: help-service-mesh
+    twilio.com/alerting-slack-channel-id: C05TAMJM46Q #istio-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/mesh-canary"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1032"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-mesh-controllers
+  description: "Mesh-controllers capability"
+  annotations:
+    pagerduty.com/service-id: PI1DI8W
+    twilio.com/email: team_otk-mesh@twilio.com
+    twilio.com/slack-channel-name: help-service-mesh
+    twilio.com/alerting-slack-channel-id: C05TAMJM46Q #istio-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/mesh-controllers"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1032"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-quantico-operator
+  description: "Quantico-operator capability"
+  annotations:
+    pagerduty.com/service-id: PV2K7OD
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C093MDVAZRV #obs-alerts-eu
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/quantico-operator"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/jm-sup-org-147"
+  system: otk-observability
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-spire
+  description: "Spire capability"
+  annotations:
+    pagerduty.com/service-id: PI1DI8W
+    twilio.com/email: team_otk-mesh@twilio.com
+    twilio.com/slack-channel-name: help-service-mesh
+    twilio.com/alerting-slack-channel-id: C05TAMJM46Q #istio-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/spire"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1032"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-telepresence
+  description: "Telepresence capability"
+  annotations:
+    pagerduty.com/service-id: PI1DI8W
+    twilio.com/email: team_otk-mesh@twilio.com
+    twilio.com/slack-channel-name: help-service-mesh
+    twilio.com/alerting-slack-channel-id: C05TAMJM46Q #istio-alerts-prod
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/telepresence"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-1032"
+  system: otk
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata: 
+  name: otk-capability-vendor-datadog
+  description: "Vendor-datadog capability"
+  annotations:
+    pagerduty.com/service-id: P4DNEH7
+    twilio.com/email: team_observability@twilio.com
+    twilio.com/slack-channel-name: help-observability
+    twilio.com/alerting-slack-channel-id: C097X6CEXAR #obs-alerts-ind
+    github.com/project-slug: twilio-internal/otk-bundles
+  links:
+    - url: "https://github.com/twilio-internal/otk-bundles/tree/main/capabilities/vendor-datadog"
+      title: "Application Repository"
+spec:
+  type: otk-bundle
+  lifecycle: production
+  owner: "group:default/sup-org-2092"
+  system: otk-observability
