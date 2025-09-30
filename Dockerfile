@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:1.1
 
 WORKDIR /go-server
 COPY go.mod go.sum ./
