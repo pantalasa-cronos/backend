@@ -7,6 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// comment
 func main() {
 
 	quotes, err := Quotes()
