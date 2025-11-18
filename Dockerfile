@@ -6,3 +6,4 @@ RUN go mod download
 COPY *.go ./
 COPY main.go quotes.go .
 RUN go build -o build/quotes .
+RUN echo hello
