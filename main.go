@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/sirupsen/logrus"
-)
+) 
 
 // feature flag to always return JSON
 var alwaysJSON = strings.EqualFold(os.Getenv("FF_ALWAYS_JSON"), "true")
