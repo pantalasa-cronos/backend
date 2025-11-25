@@ -14,7 +14,7 @@ import (
 var alwaysJSON = strings.EqualFold(os.Getenv("FF_ALWAYS_JSON"), "true")
 
 func main() {
-	quotes, err := Quotes() 
+	quotes, err := Quotes()  
 	if err != nil {
 		logrus.Fatal(err)
 	}
