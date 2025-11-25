@@ -12,7 +12,7 @@ import (
   
 // feature flag to always return JSON
 var alwaysJSON = strings.EqualFold(os.Getenv("FF_ALWAYS_JSON"), "true")
-
+ 
 func main() {
 	quotes, err := Quotes()  
 	if err != nil {
