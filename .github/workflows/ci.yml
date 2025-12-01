@@ -52,5 +52,4 @@ jobs:
                 ls /tmp
             - name: Lunar logs
               run: |
-                sleep 2
-                cat /tmp/lunar/logs.txt
+                ls
