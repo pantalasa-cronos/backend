@@ -7,7 +7,7 @@ on:
         branches: 
             - "**" 
 env:       
-    CARGO_TERM_COLOR: always 
+    CARGO_TERM_COLOR: always  
 jobs:  
     #  test-local:
     #    runs-on: nacho-test-kE0GDKGYtNnIAtde
