@@ -6,7 +6,7 @@ on:
     pull_request:
         branches: 
             - "**" 
-env:     
+env:      
     CARGO_TERM_COLOR: always
 jobs:  
     #  test-local:
