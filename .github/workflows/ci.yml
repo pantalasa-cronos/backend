@@ -54,3 +54,5 @@ jobs:
             - name: Lunar logs
               run: |
                 ls
+            - name: Composite reference
+              uses: ./action.yml
