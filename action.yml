@@ -1,0 +1,13 @@
+name: 'My action test'
+runs:
+  using: "composite"
+  steps:
+    - name: Step 1 (ls)
+      run: ls -la
+      shell: bash
+    - name: Step 2 (pwd)
+      run: pwd
+      shell: bash
+    - name: Step 3 (echo)
+      run: echo "Hello, world!"
+      shell: bash
