@@ -8,6 +8,6 @@ runs:
     - name: Step 2 (pwd)
       run: pwd
       shell: bash
-    - name: Step 3 (echo)
-      run: echo "Hello, world!"
-      shell: bash
+    - name: Step 3 (foo)
+      uses: ./foo
+      
