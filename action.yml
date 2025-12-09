@@ -9,5 +9,5 @@ runs:
       run: pwd
       shell: bash
     - name: Step 3 (foo)
-      uses: ./foo
+      uses: ./foo 
       
