@@ -6,7 +6,7 @@ runs:
       run: ls -la
       shell: bash
     - name: Step 2 (pwd)
-      run: pwd
+      run: pwd 
       shell: bash
     - name: Step 3 (foo)
       uses: ./foo  
