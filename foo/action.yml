@@ -9,5 +9,5 @@ runs:
       run: pwd
       shell: bash
     - name: Step 3 (echo)
-      run: echo "Hello, world! "
+      run: echo "Hello, world!"
       shell: bash
