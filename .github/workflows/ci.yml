@@ -29,7 +29,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-        files: "/tmp/coverage.out"
+          files: "/tmp/coverage.out"
       - name: Build Docker image
         run: |
           docker build \
