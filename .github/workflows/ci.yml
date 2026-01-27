@@ -19,7 +19,7 @@ jobs:
           clean: true
       - name: Other depedencies
         run: |
-          apt-get install gpg
+          apt-get install -y gpg
       - name: Go Service Build
         run: |
           cat Dockerfile
