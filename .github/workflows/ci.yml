@@ -11,7 +11,7 @@ env:
 
 jobs:
   go_service_build:
-    runs-on: [self-hosted, cronos]
+    runs-on: cronos
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
