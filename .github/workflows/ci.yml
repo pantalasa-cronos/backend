@@ -42,3 +42,16 @@ jobs:
             --label repository=${{ github.repository }} \
             -t backend:${{ github.sha }} \
             .
+
+  semgrep:
+    runs-on: cronos
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Semgrep
+        run: |
+          pip3 install semgrep
+      - name: Run Semgrep scan
+        run: |
+          semgrep scan --config auto --json --output semgrep-results.json || true
+          cat semgrep-results.json | head -100
