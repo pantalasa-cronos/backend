@@ -4,7 +4,7 @@
       
           
       
-Backend demo project, monitored by Earth ly Luna   
+Backend demo project, monitored by Earth ly Luna    
                            
                            
                
