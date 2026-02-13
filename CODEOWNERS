@@ -1,3 +1,13 @@
-# These owners will be the default owners for everything in
-# the repo. Unless a later match takes precedence,
-* @pantalasa-eng
+# Default owners for everything in the repo
+* @pantalasa/platform-team @pantalasa-eng
+
+# Backend services
+/cmd/ @pantalasa/backend-team @vladaionescu
+/internal/ @pantalasa/backend-team @idelvall
+
+# Infrastructure and deployment
+/deploy/ @pantalasa/infra-team @mikejholly
+*.yaml @pantalasa/infra-team @pantalasa/backend-team
+
+# Documentation
+/docs/ @pantalasa/platform-team @brandonschurman
