@@ -9,3 +9,4 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
  
 
 
+# Test docker collector 2026-02-19T20:18:28Z
