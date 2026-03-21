@@ -43,5 +43,6 @@ func main() {
 		fmt.Fprint(w, quote)
 	})
 
+	logrus.Info("Starting server on :80")
 	http.ListenAndServe(":80", nil)
 }
