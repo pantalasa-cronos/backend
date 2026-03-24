@@ -51,7 +51,7 @@ jobs:
             --label git_sha=${{ github.sha }} \
             --label build_date=${BUILD_DATE} \
             --label version=${{ github.ref_name }} \
-            --label repository=${{ github.repository }} \
+            --label repository=${IMAGE} \
             -t ${IMAGE}:${SHA_TAG} \
             .
 
