@@ -76,14 +76,11 @@ jobs:
       - name: Install Syft
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
-      - name: Generate SBOM (file output)
+      - name: Generate SBOM
         run: |
           syft dir:. -o cyclonedx-json=sbom.cyclonedx.json
-      - name: Generate SBOM (anchore-sbom-action)
-        uses: anchore/sbom-action@v0
-        with:
-          format: cyclonedx-json
-          upload-artifact: false
+          echo "SBOM generated:"
+          cat sbom.cyclonedx.json | head -50
 
   semgrep:
     runs-on: cronos
