@@ -12,3 +12,4 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
 # Test docker collector 2026-02-19T20:18:28Z
 # Trigger Checkov collection 2026-04-09T21:38:19Z
 # Trigger Checkov re-collection 2026-04-09T21:56:08Z
+
