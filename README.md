@@ -13,3 +13,4 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
 # Trigger Checkov collection 2026-04-09T21:38:19Z
 # Trigger Checkov re-collection 2026-04-09T21:56:08Z
 
+# trigger hadolint collection 2026-04-15T15:17:03Z
