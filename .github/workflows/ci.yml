@@ -16,7 +16,7 @@ jobs:
     runs-on: cronos
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           clean: true
       - name: Other depedencies
@@ -72,7 +72,7 @@ jobs:
     runs-on: cronos
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Syft
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
@@ -86,7 +86,7 @@ jobs:
     runs-on: cronos
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Semgrep
         run: |
           pip3 install --break-system-packages semgrep
@@ -99,7 +99,7 @@ jobs:
     runs-on: cronos
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Gitleaks
         run: |
           curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz | tar xz -C /usr/local/bin gitleaks
