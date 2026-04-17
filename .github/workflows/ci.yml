@@ -108,3 +108,29 @@ jobs:
           gitleaks detect --source . --report-path gitleaks-report.json --report-format json --no-git || true
           echo "Gitleaks report:"
           cat gitleaks-report.json 2>/dev/null || echo "No report generated"
+
+  terraform:
+    runs-on: cronos
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Terraform
+        run: |
+          curl -fsSL "https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip" -o /tmp/terraform.zip
+          unzip -o /tmp/terraform.zip -d /usr/local/bin
+          terraform version
+      - name: Run terraform commands (ENG-531 cicd hook test)
+        run: |
+          mkdir -p /tmp/tftest
+          cd /tmp/tftest
+          cat > main.tf << 'TF'
+          terraform {
+            required_version = ">= 1.0"
+          }
+          output "hello" {
+            value = "world"
+          }
+          TF
+          terraform init -backend=false
+          terraform validate
+          terraform plan -out=tfplan
