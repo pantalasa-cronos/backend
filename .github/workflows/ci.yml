@@ -108,3 +108,41 @@ jobs:
           gitleaks detect --source . --report-path gitleaks-report.json --report-format json --no-git || true
           echo "Gitleaks report:"
           cat gitleaks-report.json 2>/dev/null || echo "No report generated"
+
+  kubectl:
+    runs-on: cronos
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install kubectl
+        run: |
+          curl -fsSL "https://dl.k8s.io/release/v1.29.2/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl
+          chmod +x /usr/local/bin/kubectl
+          kubectl version --client
+      - name: Run kubectl commands (ENG-530 cicd hook test)
+        run: |
+          mkdir -p /tmp/k8stest
+          cd /tmp/k8stest
+          cat > deployment.yaml << 'YAML'
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: demo-app
+            namespace: default
+          spec:
+            replicas: 3
+            selector:
+              matchLabels:
+                app: demo
+            template:
+              metadata:
+                labels:
+                  app: demo
+              spec:
+                containers:
+                - name: app
+                  image: nginx:1.25
+          YAML
+          kubectl apply --dry-run=client -f deployment.yaml
+          kubectl apply --dry-run=client -f deployment.yaml -o yaml
+          kubectl version --client
