@@ -143,6 +143,7 @@ jobs:
                 - name: app
                   image: nginx:1.25
           YAML
-          kubectl apply --dry-run=client -f deployment.yaml
-          kubectl apply --dry-run=client -f deployment.yaml -o yaml
           kubectl version --client
+          kubectl version --client -o yaml
+          kubectl create --dry-run=client -f deployment.yaml -o yaml
+          kubectl config view
