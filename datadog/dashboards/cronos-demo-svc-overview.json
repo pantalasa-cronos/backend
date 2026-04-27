@@ -1,0 +1,39 @@
+{
+  "title": "cronos-demo-svc Overview",
+  "description": "Top-level health for the cronos-demo-svc backend service",
+  "layout_type": "ordered",
+  "is_read_only": false,
+  "notify_list": [],
+  "template_variables": [
+    {"name": "env", "default": "demo", "prefix": "env"}
+  ],
+  "widgets": [
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Request rate",
+        "requests": [
+          {"q": "sum:trace.http.request.hits{service:cronos-demo-svc,$env}.as_rate()"}
+        ]
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "p99 latency",
+        "requests": [
+          {"q": "p99:trace.http.request.duration{service:cronos-demo-svc,$env}"}
+        ]
+      }
+    },
+    {
+      "definition": {
+        "type": "query_value",
+        "title": "Error rate",
+        "requests": [
+          {"q": "sum:trace.http.request.errors{service:cronos-demo-svc,$env}.as_rate()"}
+        ]
+      }
+    }
+  ]
+}

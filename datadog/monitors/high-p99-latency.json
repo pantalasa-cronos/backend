@@ -1,0 +1,21 @@
+{
+  "name": "[cronos-demo-svc] High p99 latency",
+  "type": "query alert",
+  "query": "avg(last_5m):p99:trace.http.request.duration{service:cronos-demo-svc} > 2",
+  "message": "p99 request latency exceeded 2s SLA for {{service}}.\n\n@pagerduty-cronos-demo notify on-call to investigate.\n\nDashboards: https://app.us5.datadoghq.com/dashboard/cronos-demo-svc-overview",
+  "tags": [
+    "service:cronos-demo-svc",
+    "env:demo",
+    "team:platform"
+  ],
+  "options": {
+    "thresholds": {
+      "critical": 2,
+      "warning": 1.5
+    },
+    "notify_audit": false,
+    "include_tags": true,
+    "evaluation_delay": 60,
+    "renotify_interval": 0
+  }
+}
