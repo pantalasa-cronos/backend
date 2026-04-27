@@ -1,0 +1,19 @@
+{
+  "name": "[cronos-demo-svc] Error rate elevated",
+  "type": "query alert",
+  "query": "sum(last_5m):sum:trace.http.request.errors{service:cronos-demo-svc}.as_count() > 100",
+  "message": "Error rate spike detected for {{service}} — investigate immediately.",
+  "tags": [
+    "service:cronos-demo-svc",
+    "env:demo",
+    "team:platform"
+  ],
+  "options": {
+    "thresholds": {
+      "critical": 100,
+      "warning": 50
+    },
+    "notify_audit": false,
+    "include_tags": true
+  }
+}
