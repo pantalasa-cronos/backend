@@ -5,3 +5,4 @@
 # resync ENG-500 grafana observability E2E test 2026-04-21T23:03:00Z
 # resync ENG-500 grafana E2E (with dashboard_uid input) 2026-04-21T23:12:00Z
 # resync ENG-500 grafana E2E rerun after fixture+secret refresh 2026-04-21T23:30:00Z
+# resync ENG-497 endoflife collector test 2026-04-28T19:45:00Z
