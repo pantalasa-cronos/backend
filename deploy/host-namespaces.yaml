@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: host-good
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: host-good
+  template:
+    metadata:
+      labels:
+        app: host-good
+    spec:
+      hostUsers: false
+      hostNetwork: false
+      hostPID: false
+      hostIPC: false
+      containers:
+        - name: app
+          image: nginx:1.27
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: host-bad-explicit
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: host-bad-explicit
+  template:
+    metadata:
+      labels:
+        app: host-bad-explicit
+    spec:
+      hostUsers: true
+      hostNetwork: true
+      hostPID: true
+      hostIPC: true
+      containers:
+        - name: app
+          image: nginx:1.27
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
