@@ -15,3 +15,4 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
 
 # trigger hadolint collection 2026-04-15T15:17:03Z
 # hadolint retest 2026-04-15T15:28:04Z
+
