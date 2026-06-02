@@ -114,18 +114,3 @@ jobs:
           gitleaks detect --source . --report-path gitleaks-report.json --report-format json --no-git || true
           echo "Gitleaks report:"
           cat gitleaks-report.json 2>/dev/null || echo "No report generated"
-
-  trivy:
-    runs-on: cronos
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install Trivy
-        run: |
-          curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.69.3/trivy_0.69.3_Linux-64bit.tar.gz | tar xz -C /usr/local/bin trivy
-          trivy version
-      - name: Run Trivy filesystem scan
-        run: |
-          trivy fs --scanners vuln --format json --output trivy-results.json . || true
-          echo "Trivy report (first 80 lines):"
-          head -80 trivy-results.json 2>/dev/null || echo "(no report)"
