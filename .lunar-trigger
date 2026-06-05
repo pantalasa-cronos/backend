@@ -7,3 +7,4 @@
 # resync ENG-500 grafana E2E rerun after fixture+secret refresh 2026-04-21T23:30:00Z
 # resync ENG-497 endoflife collector test 2026-04-28T19:45:00Z
 # resync ENG-739 changelog-exists E2E test 2026-05-22T14:40:52Z
+# trigger collection to test hub after wedge + verify nightly-rescan 2026-06-05T14:09:00Z
