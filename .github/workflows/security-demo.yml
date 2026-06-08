@@ -1,0 +1,24 @@
+name: security-demo
+
+# Manual-only: this workflow exists to surface representative SAST findings on
+# the security dashboard. It intentionally omits a `permissions:` block so the
+# semgrep `actions/missing-workflow-permissions` rule flags it. It is never run
+# automatically (workflow_dispatch only), so it has no operational effect.
+on:
+  workflow_dispatch:
+
+jobs:
+  sample-build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "sample build step (SAST demo: missing workflow permissions)"
+
+  sample-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "sample test step (SAST demo: missing workflow permissions)"
+
+  sample-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "sample deploy step (SAST demo: missing workflow permissions)"
