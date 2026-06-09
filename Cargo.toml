@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 # Vendored helper crates used to demonstrate SBOM license country-of-origin
-# detection (license-origins collector). Their LICENSE files name a country.
+# detection (the license-origins collector reads their LICENSE files, which
+# name a country of origin).
 [dependencies]
 crypto-helper = { path = "vendor-libs/crypto-helper" }
 date-utils = { path = "vendor-libs/date-utils" }
