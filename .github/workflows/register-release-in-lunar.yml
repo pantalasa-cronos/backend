@@ -1,0 +1,20 @@
+# Showcase (ENG-859 out-of-band collect): on every release tag, associate the
+# tag with this component in Lunar — out of band, no traced CI run and no
+# scheduled collector. A single CD step calls `lunar collect --component`,
+# which submits the tag into the component's JSON keyed by the released commit
+# SHA and triggers a policy re-evaluation for that SHA.
+name: Register release in Lunar
+on:
+  push:
+    tags: ['v*']
+jobs:
+  register-release:
+    runs-on: cronos
+    steps:
+      - name: Submit release tag to Lunar (out-of-band)
+        run: |
+          lunar collect \
+            --component github.com/pantalasa-cronos/backend \
+            --sha "${{ github.sha }}" \
+            .release.tag "${{ github.ref_name }}"
+          echo "Registered ${{ github.ref_name }} for backend @ ${{ github.sha }}"
