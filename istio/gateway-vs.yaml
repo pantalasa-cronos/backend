@@ -33,3 +33,5 @@ spec:
     tls: {mode: ISTIO_MUTUAL}
     outlierDetection: {consecutive5xxErrors: 5, interval: 30s}
     connectionPool: {tcp: {maxConnections: 100}}
+
+# clean eval 1783636894
