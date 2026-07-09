@@ -6,3 +6,5 @@ metadata:
 spec:
   mtls:
     mode: STRICT
+
+# istio collector cronos test — lunar-lib#245
