@@ -8,3 +8,5 @@ spec:
     mode: STRICT
 
 # patient re-trigger 002400
+
+# pend-then-skip re-test 005917
