@@ -10,3 +10,5 @@ spec:
 # patient re-trigger 002400
 
 # pend-then-skip re-test 005917
+
+# scoped-policy re-test 014523
