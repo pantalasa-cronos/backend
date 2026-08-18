@@ -18,3 +18,4 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
 
 <!-- cronos-trigger: 2026-05-22T02:14:13Z -->
 <!-- grype collector test trigger 20260609T192557Z (PR lunar-lib#201) -->
+<!-- ticket guardrail check: PR opened with no ticket reference, 2026-08-18 -->
