@@ -20,3 +20,5 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
 <!-- grype collector test trigger 20260609T192557Z (PR lunar-lib#201) -->
 <!-- ticket guardrail check: PR opened with no ticket reference, 2026-08-18 -->
 <!-- ticket guardrail check, second pass: no ticket reference anywhere, 2026-08-18T23:47Z -->
+
+<!-- codeql-cicd-verification 2026-08-25 -->
