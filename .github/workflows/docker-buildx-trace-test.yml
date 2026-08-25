@@ -46,24 +46,26 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # ---- Arm A: plain docker build + docker push (control) ----
-      - name: Arm A — plain docker build + push
+      # ---- Arm A: plain docker build (control) ----
+      # Build only, no push. Round 1 already proved a plain `docker push` is
+      # recorded; keeping A and B push-free here makes the *only* pushed image
+      # on this commit the one docker/build-push-action published, so whatever
+      # .container_scan ends up scanning came unambiguously from the action.
+      - name: Arm A — plain docker build (no push)
         run: |
           IMAGE=pantalasabot/pantalasa
           docker build -t ${IMAGE}:bpa-plain-${{ github.sha }} .
-          docker push ${IMAGE}:bpa-plain-${{ github.sha }}
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
 
-      # ---- Arm B: hand-written buildx build --push (control 2) ----
+      # ---- Arm B: hand-written buildx build (control 2) ----
       # Same command shape the action is expected to produce, but written by
-      # hand. If A lands and B doesn't, the problem is the buildx shape. If B
-      # lands and C doesn't, the problem is the action.
-      - name: Arm B — hand-written docker buildx build --push
+      # hand — and also push-free, for the reason above.
+      - name: Arm B — hand-written docker buildx build (no push)
         run: |
           IMAGE=pantalasabot/pantalasa
-          docker buildx build --push -t ${IMAGE}:bpa-manual-${{ github.sha }} .
+          docker buildx build --load -t ${IMAGE}:bpa-manual-${{ github.sha }} .
 
       # ---- Arm C: the public docker/build-push-action (the thing under test) ----
       - name: Arm C — public docker/build-push-action
