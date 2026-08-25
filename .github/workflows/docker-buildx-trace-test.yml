@@ -1,0 +1,74 @@
+# Diagnostic workflow: does Lunar's docker `cicd` collector see a build+push
+# performed by the public `docker/build-push-action`, the way it sees a plain
+# `docker build` / `docker push`?
+#
+# Three arms in ONE job on the traced runner, so the only variable is how the
+# build is invoked:
+#   A. control     — plain `docker build` + `docker push` (known to be traced)
+#   B. control-2   — a hand-written `docker buildx build --push`
+#   C. test        — the public `docker/build-push-action`
+#
+# Afterwards, read `.containers.native.docker.cicd.cmds` for this commit and
+# see which of the three arms landed.
+name: docker-buildx-trace-test
+
+on:
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  buildx-trace:
+    runs-on: cronos
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Which docker/buildx binaries exist on the runner, and is buildx a CLI
+      # plugin (binary name `docker`) or standalone (binary name `buildx`)?
+      # The collector hooks on `binary: {name: docker}` only, so this decides
+      # whether a buildx build is visible at all.
+      - name: Diagnose docker + buildx on the runner
+        run: |
+          echo "--- which ---"
+          command -v docker || echo "no docker on PATH"
+          command -v buildx || echo "no standalone buildx on PATH"
+          echo "--- docker client version ---"
+          docker version --format '{{.Client.Version}}'
+          echo "--- buildx ---"
+          docker buildx version || echo "no buildx plugin"
+          echo "--- cli plugin dirs ---"
+          ls -l /usr/libexec/docker/cli-plugins /usr/local/lib/docker/cli-plugins ~/.docker/cli-plugins 2>/dev/null || true
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # ---- Arm A: plain docker build + docker push (control) ----
+      - name: Arm A — plain docker build + push
+        run: |
+          IMAGE=pantalasabot/pantalasa
+          docker build -t ${IMAGE}:bpa-plain-${{ github.sha }} .
+          docker push ${IMAGE}:bpa-plain-${{ github.sha }}
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ---- Arm B: hand-written buildx build --push (control 2) ----
+      # Same command shape the action is expected to produce, but written by
+      # hand. If A lands and B doesn't, the problem is the buildx shape. If B
+      # lands and C doesn't, the problem is the action.
+      - name: Arm B — hand-written docker buildx build --push
+        run: |
+          IMAGE=pantalasabot/pantalasa
+          docker buildx build --push -t ${IMAGE}:bpa-manual-${{ github.sha }} .
+
+      # ---- Arm C: the public docker/build-push-action (the thing under test) ----
+      - name: Arm C — public docker/build-push-action
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: pantalasabot/pantalasa:bpa-action-${{ github.sha }}
