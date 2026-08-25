@@ -22,3 +22,5 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
 <!-- ticket guardrail check, second pass: no ticket reference anywhere, 2026-08-18T23:47Z -->
 
 <!-- codeql-cicd-verification 2026-08-25 -->
+
+<!-- codeql-cicd-verification round 2 -->
