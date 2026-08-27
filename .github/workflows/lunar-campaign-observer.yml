@@ -1,0 +1,59 @@
+name: Lunar campaign observer
+
+on:
+  push:
+    branches:
+      - 'codex/broader-verification-*'
+
+jobs:
+  snapshot:
+    runs-on: cronos
+    timeout-minutes: 5
+    env:
+      PROMETHEUS_URL: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+    steps:
+      - name: Capture Cronos demand and health
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          curl -fsS "$PROMETHEUS_URL/-/ready"
+
+          query() {
+            curl -fsSG "$PROMETHEUS_URL/api/v1/query" \
+              --data-urlencode "query=$1" \
+              | jq -er 'if .status != "success" then error(.error // "query failed") else ([.data.result[].value[1] | tonumber] | add // 0) end'
+          }
+
+          pr_files_pull_request=$(query 'sum(lunar_github_requests_total{namespace="cronos",operation="pr_files",source="pull_request"})')
+          pr_commits_pull_request=$(query 'sum(lunar_github_requests_total{namespace="cronos",operation="pr_commits",source="pull_request"})')
+          pr_files_workflow_run=$(query 'sum(lunar_github_requests_total{namespace="cronos",operation="pr_files",source="workflow_run"})')
+          pr_commits_repo_sync=$(query 'sum(lunar_github_requests_total{namespace="cronos",operation="pr_commits",source="repo_sync"})')
+          total_requests=$(query 'sum(lunar_github_requests_total{namespace="cronos"})')
+          error_requests=$(query 'sum(lunar_github_requests_total{namespace="cronos",outcome="error"})')
+          rate_limited_requests=$(query 'sum(lunar_github_requests_total{namespace="cronos",outcome="rate_limited"})')
+          app_installations_observed=$(query 'count(count by (host,owner,app_id) (lunar_github_rate_limit_limit{namespace="cronos"}))')
+          minimum_rate_remaining=$(query 'min(lunar_github_rate_limit_remaining{namespace="cronos",resource="core"})')
+          repo_sync_backlog=$(query 'max(sum by (pod) (river_jobs{namespace="cronos",pool="queue",queue="repo_sync",state=~"available|retryable"}))')
+          repo_sync_oldest_age=$(query 'max(river_job_oldest_available_age_seconds{namespace="cronos",pool="queue",queue="repo_sync"})')
+          db_pool_acquired=$(query 'max(hub_db_pool_connections{namespace="cronos",pool="hub",state="acquired"})')
+          db_pool_max=$(query 'max(hub_db_pool_max_connections{namespace="cronos",pool="hub"})')
+          db_pool_peak_15m=$(query 'max(max_over_time(hub_db_pool_connections{namespace="cronos",pool="hub",state="acquired"}[15m]))')
+
+          jq -cn \
+            --argjson pr_files_pull_request "$pr_files_pull_request" \
+            --argjson pr_commits_pull_request "$pr_commits_pull_request" \
+            --argjson pr_files_workflow_run "$pr_files_workflow_run" \
+            --argjson pr_commits_repo_sync "$pr_commits_repo_sync" \
+            --argjson total_requests "$total_requests" \
+            --argjson error_requests "$error_requests" \
+            --argjson rate_limited_requests "$rate_limited_requests" \
+            --argjson app_installations_observed "$app_installations_observed" \
+            --argjson minimum_rate_remaining "$minimum_rate_remaining" \
+            --argjson repo_sync_backlog "$repo_sync_backlog" \
+            --argjson repo_sync_oldest_age "$repo_sync_oldest_age" \
+            --argjson db_pool_acquired "$db_pool_acquired" \
+            --argjson db_pool_max "$db_pool_max" \
+            --argjson db_pool_peak_15m "$db_pool_peak_15m" \
+            '{pr_files_pull_request:$pr_files_pull_request,pr_commits_pull_request:$pr_commits_pull_request,pr_files_workflow_run:$pr_files_workflow_run,pr_commits_repo_sync:$pr_commits_repo_sync,total_requests:$total_requests,error_requests:$error_requests,rate_limited_requests:$rate_limited_requests,app_installations_observed:$app_installations_observed,minimum_rate_remaining:$minimum_rate_remaining,repo_sync_backlog:$repo_sync_backlog,repo_sync_oldest_age_seconds:$repo_sync_oldest_age,db_pool_acquired:$db_pool_acquired,db_pool_max:$db_pool_max,db_pool_peak_15m:$db_pool_peak_15m}' \
+            | sed 's/^/CAMPAIGN_SNAPSHOT=/'

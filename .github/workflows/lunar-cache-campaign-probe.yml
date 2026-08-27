@@ -1,0 +1,19 @@
+name: Lunar cache campaign probe
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  probe:
+    runs-on: cronos
+    timeout-minutes: 5
+    steps:
+      - name: Exercise the deployed agent
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(lunar version)
+          echo "Lunar agent: $version"
+          [[ "$version" == *"f23a5b43"* ]]
+          sleep 5
