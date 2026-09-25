@@ -1,3 +1,0 @@
-probe 3
-move main while the origin run is in flight
-move main while hop 1 is in flight

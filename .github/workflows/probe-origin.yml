@@ -1,8 +1,0 @@
-# TEMP (ENG-1944 probe 3): stands in for a push-triggered deploy workflow.
-name: probe origin
-on: workflow_dispatch
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "github.sha=${{ github.sha }}"; sleep 25
