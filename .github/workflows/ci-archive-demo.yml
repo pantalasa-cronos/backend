@@ -1,0 +1,41 @@
+# TEMP (ENG-1911 demo): archive every finished GH-Actions run attempt and
+# record it in Lunar. A throwaway MinIO stands in for the customer's bucket;
+# in real use this is aws-actions/configure-aws-credentials with an OIDC role.
+name: ci-archive demo
+on:
+  workflow_run:
+    workflows: [GH-Actions]
+    types: [completed]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  archive:
+    runs-on: cronos
+    steps:
+      - name: Stand-in bucket (MinIO)
+        run: |
+          docker rm -f ci-archive-minio >/dev/null 2>&1 || true
+          docker run -d --name ci-archive-minio -p 127.0.0.1:9000:9000 \
+            -e MINIO_ROOT_USER=demo -e MINIO_ROOT_PASSWORD=demo-secret-key \
+            quay.io/minio/minio:latest server /data
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:9000/minio/health/live && break; sleep 1; done
+          curl -sf -X PUT --aws-sigv4 "aws:amz:us-east-1:s3" --user demo:demo-secret-key \
+            -H "x-amz-content-sha256: UNSIGNED-PAYLOAD" http://127.0.0.1:9000/ci-archive-demo
+      - id: archive
+        uses: earthly/lunar-lib/collectors/ci-archive@bender/eng-1911-ci-archive
+        with:
+          s3-bucket: ci-archive-demo
+          s3-endpoint-url: http://127.0.0.1:9000
+          aws-region: us-east-1
+        env:
+          AWS_ACCESS_KEY_ID: demo
+          AWS_SECRET_ACCESS_KEY: demo-secret-key
+      - name: What landed in the bucket
+        run: |
+          echo "archived ${{ steps.archive.outputs.uri }} for ${{ steps.archive.outputs.sha }}"
+          curl -s --aws-sigv4 "aws:amz:us-east-1:s3" --user demo:demo-secret-key \
+            -H "x-amz-content-sha256: UNSIGNED-PAYLOAD" "http://127.0.0.1:9000/ci-archive-demo?list-type=2" \
+            | grep -o '<Key>[^<]*</Key><LastModified>[^<]*</LastModified>' | sed 's/<[^>]*>/ /g'
+      - if: always()
+        run: docker rm -f ci-archive-minio >/dev/null 2>&1 || true
