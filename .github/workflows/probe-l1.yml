@@ -1,0 +1,15 @@
+# TEMP (ENG-1944 probe): does run-name carry the upstream commit through a workflow_run chain?
+name: probe-l1
+run-name: "probe-l1 origin=${{ github.event.workflow_run.head_sha }}"
+on:
+  workflow_run:
+    workflows: [GH-Actions]
+    types: [completed]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "github.sha=${{ github.sha }}"
+          echo "upstream id=${{ github.event.workflow_run.id }} head_sha=${{ github.event.workflow_run.head_sha }}"
+          sleep 45
