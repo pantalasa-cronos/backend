@@ -1,0 +1,12 @@
+# TEMP (ENG-1944 probe 3): the proposed one-line addition.
+name: probe hop 1
+run-name: "${{ github.workflow }} (from run ${{ github.event.workflow_run.id }})"
+on:
+  workflow_run:
+    workflows: [probe origin]
+    types: [completed]
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "github.sha=${{ github.sha }} payload.workflow_run.id=${{ github.event.workflow_run.id }}"; sleep 25
