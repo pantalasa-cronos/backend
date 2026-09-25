@@ -1,5 +1,5 @@
 # TEMP (ENG-1911 demo): archive every finished GH-Actions run attempt and
-# record it in Lunar. A throwaway MinIO stands in for the customer's bucket;
+# record it in Lunar. A local S3 stand-in takes the place of the customer's bucket;
 # in real use this is aws-actions/configure-aws-credentials with an OIDC role.
 name: ci-archive demo
 on:
@@ -13,29 +13,25 @@ jobs:
   archive:
     runs-on: cronos
     steps:
-      - name: Stand-in bucket (MinIO)
+      - name: Stand-in bucket (the ci-archive suite's S3 stand-in, which verifies SigV4 like AWS)
         run: |
-          docker rm -f ci-archive-minio >/dev/null 2>&1 || true
-          docker run -d --name ci-archive-minio -p 127.0.0.1:9000:9000 \
-            -e MINIO_ROOT_USER=demo -e MINIO_ROOT_PASSWORD=demo-secret-key \
-            quay.io/minio/minio:latest server /data
-          for i in $(seq 1 60); do curl -sf http://127.0.0.1:9000/minio/health/live && break; sleep 1; done
-          curl -sf -X PUT --aws-sigv4 "aws:amz:us-east-1:s3" --user demo:demo-secret-key \
-            -H "x-amz-content-sha256: UNSIGNED-PAYLOAD" http://127.0.0.1:9000/ci-archive-demo
+          mkdir -p "$RUNNER_TEMP/s3"
+          curl -fsSL -o "$RUNNER_TEMP/servers.py" \
+            https://raw.githubusercontent.com/earthly/lunar-lib/bender/eng-1911-ci-archive/collectors/ci-archive/test/servers.py
+          cd "$RUNNER_TEMP"
+          S3_DIR="$RUNNER_TEMP/s3" nohup python3 -c 'import http.server, servers; http.server.ThreadingHTTPServer(("127.0.0.1", 9001), servers.S3).serve_forever()' >/dev/null 2>&1 &
+          for i in $(seq 1 20); do curl -s -o /dev/null http://127.0.0.1:9001/ && break; sleep 0.5; done
       - id: archive
         uses: earthly/lunar-lib/collectors/ci-archive@bender/eng-1911-ci-archive
         with:
           s3-bucket: ci-archive-demo
-          s3-endpoint-url: http://127.0.0.1:9000
+          s3-endpoint-url: http://127.0.0.1:9001
           aws-region: us-east-1
         env:
-          AWS_ACCESS_KEY_ID: demo
-          AWS_SECRET_ACCESS_KEY: demo-secret-key
+          AWS_ACCESS_KEY_ID: AKIATEST
+          AWS_SECRET_ACCESS_KEY: secret-test
       - name: What landed in the bucket
         run: |
           echo "archived ${{ steps.archive.outputs.uri }} for ${{ steps.archive.outputs.sha }}"
-          curl -s --aws-sigv4 "aws:amz:us-east-1:s3" --user demo:demo-secret-key \
-            -H "x-amz-content-sha256: UNSIGNED-PAYLOAD" "http://127.0.0.1:9000/ci-archive-demo?list-type=2" \
-            | grep -o '<Key>[^<]*</Key><LastModified>[^<]*</LastModified>' | sed 's/<[^>]*>/ /g'
-      - if: always()
-        run: docker rm -f ci-archive-minio >/dev/null 2>&1 || true
+          find "$RUNNER_TEMP/s3" -type f -printf '%s bytes  %P\n'
+          python3 -c 'import sys, zipfile; [print(" ", i.file_size, i.filename) for i in zipfile.ZipFile(sys.argv[1]).infolist()]' "$(find "$RUNNER_TEMP/s3" -type f | head -1)"
