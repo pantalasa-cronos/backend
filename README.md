@@ -24,3 +24,5 @@ Central configuration at: https://github.com/pantalasa-cronos/lunar
 <!-- codeql-cicd-verification 2026-08-25 -->
 
 <!-- codeql-cicd-verification round 2 -->
+
+<!-- ENG-1710 cross-repository check isolation probe -->
